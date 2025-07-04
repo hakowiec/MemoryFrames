@@ -1,0 +1,26 @@
+from moviepy.editor import *
+
+# Ścieżka do pliku ze zdjęciem
+image_path = "zdjecie.png"  # zamień na nazwę Twojego pliku
+output_path = "instagram_promo_static.mp4"
+duration = 20  # długość filmu w sekundach
+
+# Wymiary filmu (pionowy format Instagram Reels/Stories)
+screen_size = (1080, 1920)
+
+# Wczytaj obraz, dopasuj do wysokości 1920px
+image_clip = (
+    ImageClip(image_path)
+    .resize(height=1920)
+    .set_duration(duration)
+    .set_position("center")  
+    .fx(vfx.fadein, 1)
+    .fx(vfx.fadeout, 2)
+)
+
+# Dodaj cichy podkład (można podmienić później w edytorze na muzykę)
+silent_audio = AudioClip(lambda t: 0 * t, duration=duration)
+final_clip = image_clip.set_audio(silent_audio)
+
+# Zapisz film jako mp4
+final_clip.write_videofile(output_path, fps=25)  
